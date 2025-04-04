@@ -1,0 +1,98 @@
+/* Подключение Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212; /* Темный фон */
+    color: #ffffff; /* Белый текст */
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    text-align: center;
+    padding: 30px;
+    background-color: #1F1F1F; /* Темно-серый фон для заголовка */
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+nav {
+    background-color: #1F1F1F; /* Темно-серый фон для навигации */
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+nav a {
+    color: #ffffff; /* Белый текст для ссылок */
+    margin: 0 20px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #4CAF50; /* Цвет при наведении */
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background-color: #2A2A2A; /* Темно-серый фон для карточек */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1); /* Светлая тень */
+    margin: 15px 0;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Подъем карточки при наведении */
+}
+
+button.btn {
+    background-color: #4CAF50; /* Цвет кнопки */
+    color: white; /* Белый текст на кнопке */
+    border: none;
+    padding: 15px 25px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button.btn:hover {
+    background-color: #45a049; /* Цвет кнопки при наведении */
+    transform: scale(1.05); /* Увеличение кнопки при наведении */
+}
+
+input[type="text"], input[type="email"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #4CAF50; /* Зеленая рамка */
+    border-radius: 5px;
+    background-color: #3A3A3A; /* Темный фон для полей ввода */
+    color: white; /* Белый текст */
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus {
+    border-color: #76c7c0; /* Светлая рамка при фокусе */
+    outline: none; /* Убираем стандартный фокус */
+}
+
+.faq-item {
+    margin: 10px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #1F1F1F; /* Темно-серый фон для подвала */
+    color: white;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+}

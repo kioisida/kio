@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пополнение аккаунта Steam</title>
+    
+    <!-- Подключение Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Подключение Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Подключение AOS для анимаций -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
+    
+    <link rel="stylesheet" href="styles.css"> <!-- Подключение внешнего файла стилей -->
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <header class="text-center py-5">
+        <h1>Пополнение аккаунта Steam</h1>
+        <p class="lead">Быстрое и безопасное пополнение вашего аккаунта</p>
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Steam Recharge</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">О нас</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Контакты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">Часто задаваемые вопросы</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container my-5">
+        <main>
+            <section class="card p-4" data-aos="fade-up">
+                <h2 class="text-center">Форма пополнения</h2>
+                <form id="recharge-form">
+                    <div class="form-group">
+                        <label for="steam-login">Логин Steam:</label>
+                        <input type="text" id="steam-login" class="form-control" placeholder="Введите ваш логин Steam" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Электронная почта:</label>
+                        <input type="email" id="email" class="form-control" placeholder="Введите вашу почту" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Сумма пополнения:</label>
+                        <input type="number" id="amount" class="form-control" placeholder="Введите сумму в ₽" required>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">Пополнить</button>
+                </form>
+            </section>
+            <section id="about" class="card p-4 my-4" data-aos="fade-up">
+                <h2>О нас</h2>
+                <p>Мы предоставляем услуги по быстрому и безопасному пополнению аккаунтов Steam. Наша компания гарантирует конфиденциальность и безопасность ваших данных.</p>
+            </section>
+            <section id="contact" class="card p-4 my-4" data-aos="fade-up">
+                <h2>Контакты</h2>
+                <p>Вы можете связаться с нами по электронной почте: <a href="mailto:support@example.com">support@example.com</a></p>
+            </section>
+            <section id="faq" class="card p-4 my-4" data-aos="fade-up">
+                <h2>Часто задаваемые вопросы</h2>
+                <div class="faq-item">
+                    <h3>Как быстро произойдет пополнение?</h3>
+                    <p>Пополнение происходит сразу после подтверждения всех данных.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Безопасно ли это?</h3>
+                    <p>Да, мы используем шифрование для защиты ваших данных.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <footer class="text-center py-4 bg-dark text-light">
+        <p>&copy; 2025 Пополнение Steam. Все права защищены.</p>
+    </footer>
+
+    <!-- Подключение jQuery и Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- Подключение AOS для анимаций -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script>
+        AOS.init(); // Инициализация AOS
+    </script>
+    
+    <script>
+        const stripe = Stripe('pk_test_51RADQQH48qelJN4O2cAzgaYLwElh2AomcnV8EkPKnjEgXLZi8gqcFcy7mRqmxuFyOo4SCEmiTA63RKoGQrm03A4i004f23cgUm');
+
+        document.getElementById('recharge-form').addEventListener('submit', async (event) => {
+            event.preventDefault(); // предотвращаем стандартное поведение формы
+
+            const amount = document.getElementById('amount').value;
+
+            const response = await fetch('/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount }),
+            });
+
+            const session = await response.json();
+
+            // Перенаправление на страницу оплаты
+            const result = await stripe.redirectToCheckout({ sessionId: session.id });
+
+            if (result.error) {
+                alert(result.error.message);
+            }
+        });
+    </script>
+</body>
+</html>
